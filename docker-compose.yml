@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./api
+    container_name: api
+    restart: always
+    environment:
+      - APP_NAME=MyFlaskApp
+    expose:
+      - 8080
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - '80:80'
+  
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: always
+    environment:
+
+    ports:
+      - '3307:3306'
+    volumes:  
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
+    driver: local
