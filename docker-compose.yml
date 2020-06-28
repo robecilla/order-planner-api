@@ -5,8 +5,6 @@ services:
     build: ./api
     container_name: api
     restart: always
-    environment:
-      - APP_NAME=MyFlaskApp
     expose:
       - 8080
 
@@ -22,7 +20,7 @@ services:
     container_name: db
     restart: always
     environment:
-
+      - MYSQL_ROOT_PASSWORD=root
     ports:
       - '3307:3306'
     volumes:  
