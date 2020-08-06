@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -13,8 +13,8 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - '80:80'
-  
+      - "80:80"
+
   db:
     image: mysql:5.7
     container_name: db
@@ -22,8 +22,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - '3307:3306'
-    volumes:  
+      - "3307:3306"
+    volumes:
       - dbdata:/var/lib/mysql
 
 volumes:
