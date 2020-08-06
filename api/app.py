@@ -12,8 +12,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
     
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@db:3306/order_planner'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3307/order_planner'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@db:3306/order_planner'
 
     db.init_app(app)
     ma.init_app(app)
