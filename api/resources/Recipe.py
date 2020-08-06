@@ -60,7 +60,9 @@ class RecipeResource(Resource):
 
     def delete(self, recipe_id):
         recipe = Recipe.query.get(recipe_id)
+        measure = Measure.query.join(Measure, Recipe.measures).filter(Recipe.id == recipe_id).first()
 
+        db.session.delete(measure)
         db.session.delete(recipe)
         db.session.commit()
 
