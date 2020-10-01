@@ -1,6 +1,6 @@
 import jwt
 import datetime
-from flask import request
+from flask import request, jsonify
 from flask_restful import Api
 from models.models import user_schema,  User as u
 
@@ -47,15 +47,6 @@ def login(username: str, password: str) -> str:
         return jwt.encode(payload, secret)
     else:
         raise InvalidPasswordException('Invalid password')
-
-# def decode_auth_token(auth_token):
-#     try:
-#         payload = jwt.decode(auth_token, secret)
-#         return True
-#     except jwt.ExpiredSignatureError:
-#         return 'Signature expired. Please log in again.'
-#     except jwt.InvalidTokenError:
-#         return 'Invalid token. Please log in again.'
 
 class Error(Exception):
     message: str

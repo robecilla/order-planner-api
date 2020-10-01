@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify, make_response
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_cors import CORS
@@ -9,6 +9,7 @@ from resources.Recipe import RecipeListResource, RecipeResource
 from resources.Ingredient import IngredientListResource, IngredientResource
 from resources.User import UserListResource, UserResource
 from services.AuthService import login, InvalidUserException, InvalidPasswordException
+
 
 def create_app():
     app = Flask(__name__)
@@ -42,9 +43,13 @@ def create_app():
         request_data = request.get_json()
         username = request_data['username']        
         password = request_data['password']
+        token = login(username, password)
+        data = {
+            "token": token.decode('utf-8')
+        }
 
         try:
-            return login(username, password)
+            return make_response(jsonify(data), 200)
         except InvalidUserException as exception:
             return exception.message, 404
         except InvalidPasswordException as exception:
