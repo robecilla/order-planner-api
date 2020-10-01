@@ -2,9 +2,12 @@ from flask import request
 from flask_restful import Resource
 from models.models import Ingredient
 from models.models import ingredient_schema
+from services.AuthService import authenticate
 from db import db
 
 class IngredientListResource(Resource):
+    method_decorators = [authenticate]
+
     def get(self):
         return ingredient_schema.dump(Ingredient.query.all(), many=True), 200
     
@@ -30,6 +33,8 @@ class IngredientListResource(Resource):
 
 
 class IngredientResource(Resource):
+    method_decorators = [authenticate]
+    
     def get(self, ingredient_id):
         ingredient = Ingredient.query.get(ingredient_id)
         if not ingredient:

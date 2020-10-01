@@ -1,5 +1,6 @@
 from db import db
 from ma import ma
+from werkzeug.security import generate_password_hash, check_password_hash
 
 recipe_measure = db.Table('recipe_measure',
     db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.id'), primary_key=True),
@@ -9,6 +10,18 @@ recipe_measure = db.Table('recipe_measure',
 class Unit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=False, unique=True)
+    email = db.Column(db.String(80), nullable=False, unique=True)
+    password_hash = db.Column(db.String(128))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -56,4 +69,10 @@ class RecipeSchema(ma.SQLAlchemyAutoSchema):
     measures = ma.Nested(MeasureSchema, many=True)
 
 recipe_schema = RecipeSchema()
+
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        fields = ("id", "username", "email")
+
+user_schema = UserSchema()
 
